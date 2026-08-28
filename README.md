@@ -27,32 +27,54 @@ Copy into the OpenCode global config:
 
 ```sh
 # from a checkout of this repo
-mkdir -p ~/.config/opencode/plugins ~/.config/opencode/skills
+mkdir -p ~/.config/opencode/plugins ~/.config/opencode/skills ~/.config/opencode/command
 cp plugins/anytxt.mjs ~/.config/opencode/plugins/
 cp -r skills/anytxt ~/.config/opencode/skills/
-
-# optional, only needed if @opencode-ai/plugin is not already installed
-cd ~/.config/opencode && bun install
+cp command/anytxt-param.md ~/.config/opencode/command/
+cp .env.example ~/.config/opencode/.env  # optional, see Configuration
 ```
 
-Restart OpenCode. Plugin files in the plugin directory and skills under
-`skills/` are discovered automatically — no `opencode.json` edit needed.
+`@opencode-ai/plugin` must be resolvable from the config directory — add it
+to `~/.config/opencode/package.json` and run `bun install` if missing.
+
+Register the plugin in `~/.config/opencode/opencode.json` (the plugin
+directory is not scanned automatically in current builds):
+
+```json
+"plugin": ["./plugins/anytxt.mjs"]
+```
+
+Restart OpenCode.
 
 ## Configuration
 
-- `ANYTXT_URL` — API endpoint override (default `http://127.0.0.1:9920`).
+All settings optional, read from the project `.env` (the session's cwd) on
+every tool call — process env vars win, no restart needed. When the project
+has no `.env`, the global `~/.config/opencode/.env` is used instead.
+See `.env.example`.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `ANYTXT_PORT` | try 9920, then 9921 | ATGUI port |
+| `ANYTXT_URL` | — | full URL override (beats PORT) |
+| `ANYTXT_DIR` | everywhere | default search folder |
+| `ANYTXT_LIMIT` | 5 | results per request |
+| `ANYTXT_FILTER_EXT` | `*` | extension filter, e.g. `pdf;docx` |
+| `ANYTXT_ORDER` | 0 | 0 default, 1 modtime ASC, 2 DESC |
+
+Change settings at runtime with `/anytxt-param` (updates the `.env`).
 
 ## Usage
 
 ```text
-Search my notes for "canonical basis"           → anytxt_search
+Search my notes for "hello world"               → anytxt_search
 Give me the context around that match           → anytxt_fragment
 Index a new folder first                        → anytxt_sync
 ```
 
 Query syntax: `&` AND, `|` OR, `!` NOT, `( )` grouping, `"..."` exact phrase.
 
-Example: `patent & (canonical | basis) !draft`
+Example: `signed & (agreement | contract) !draft`
 
 ## Notes
 

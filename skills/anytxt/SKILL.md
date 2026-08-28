@@ -20,6 +20,11 @@ Use ONLY when the target files are binary formats grep/ripgrep cannot read, or t
 - `filterExt`: `"pdf;docx"` (default `*`). `directory`: restrict to a folder; omit to search all indexed folders.
 - `anytxt_sync` a folder when it is not yet in the index.
 
+## Config
+
+- Port/folder/limit/extension defaults come from `.env` (see README), re-read every call.
+- `/anytxt-param` changes them at runtime — no restart.
+
 ## Limits
 
 - Only files ATGUI has indexed are searchable — if unsure, run `anytxt_sync` first.
