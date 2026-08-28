@@ -1,0 +1,10 @@
+{
+  "name": "anytxt-opencode",
+  "version": "0.1.0",
+  "description": "OpenCode plugin + skill for AnyTXT Searcher full-text search",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.14.18"
+  }
+}
