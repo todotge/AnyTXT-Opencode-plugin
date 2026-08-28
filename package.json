@@ -4,6 +4,18 @@
   "description": "OpenCode plugin + skill for AnyTXT Searcher full-text search",
   "type": "module",
   "license": "MIT",
+  "main": "plugins/anytxt.mjs",
+  "exports": "./plugins/anytxt.mjs",
+  "bin": {
+    "anytxt-opencode": "bin/install.mjs"
+  },
+  "files": [
+    "bin",
+    "plugins",
+    "skills",
+    "command",
+    ".env.example"
+  ],
   "dependencies": {
     "@opencode-ai/plugin": "^1.14.18"
   }
