@@ -11,7 +11,7 @@ Plugin + skill for OpenCode: full-text search over files indexed by
 other formats `grep`/`ripgrep` cannot read.
 
 Uses the local JSON-RPC 2.0 API inside the ATGUI process
-(`http://127.0.0.1:9920`). **Non-commercial use only.** ATGUI must be running.
+(`http://127.0.0.1:9920`)
 
 ## What it provides
 
