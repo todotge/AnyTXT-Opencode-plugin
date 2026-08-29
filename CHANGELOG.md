@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ____
 
+## [0.0.5] - 2026-08-29
+
+### Added
+
+- `bunx anytxt-opencode remove [target]`: uninstalls the plugin, skill and
+  command from the target (positional path or `OPENCODE_CONFIG_DIR`,
+  default `~/.config/opencode`). Deletes only what install created — never
+  the `.env`. Skips entries not installed, refuses to run against a
+  filesystem root, exits 1 when a removal fails. Tests:
+  `tests/install.test.ts` (7 cases).
+
 ## [0.0.4] - 2026-08-29
 
 ### Fixed
@@ -115,7 +126,8 @@ ____
 [0.0.2]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.1...v0.0.2
 [0.0.3]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.2...v0.0.3
 [0.0.4]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.3...v0.0.4
-[Unreleased]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.4...HEAD
+[0.0.5]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.4...v0.0.5
+[Unreleased]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.5...HEAD
 
 
 ___

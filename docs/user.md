@@ -32,6 +32,17 @@ Everything lands in the project's `.opencode/` (`.opencode/src/`,
 `.opencode/plugins/anytxt.ts`, skills, command) — scoped to this project
 only, nothing in the global config. Same shim path works for both targets.
 
+### Uninstall
+
+```sh
+bunx anytxt-opencode remove            # global
+bunx anytxt-opencode remove .opencode  # project-local
+```
+
+Removes exactly what install created (`src/`, `plugins/anytxt.ts`,
+`skills/anytxt/`, `command/anytxt-param.md`). Never touches `.env`. Skips
+entries that are not installed; exits 1 on removal errors.
+
 ### Alternative: npm plugin entry (no copies)
 
 ```json

@@ -45,4 +45,45 @@ describe("installer CLI", () => {
     expect(existsSync(join(target, "plugins", "anytxt.ts"))).toBe(true);
     rmSync(target, { recursive: true, force: true });
   });
+
+  test("`remove` deletes installed entries, keeps .env", () => {
+    const target = mkdtempSync(join(tmpdir(), "atx-target4-"));
+    expect(run(["install", target], "/").exitCode).toBe(0);
+    expect(existsSync(join(target, "src", "main.ts"))).toBe(true);
+    const res = run(["remove", target], "/");
+    expect(res.exitCode).toBe(0);
+    expect(existsSync(join(target, "src"))).toBe(false);
+    expect(existsSync(join(target, "plugins", "anytxt.ts"))).toBe(false);
+    expect(existsSync(join(target, "skills", "anytxt"))).toBe(false);
+    expect(existsSync(join(target, "command", "anytxt-param.md"))).toBe(false);
+    expect(existsSync(join(target, ".env"))).toBe(true);
+    rmSync(target, { recursive: true, force: true });
+  });
+
+  test("`remove` on empty target exits 0, nothing to remove", () => {
+    const target = mkdtempSync(join(tmpdir(), "atx-target5-"));
+    const res = run(["remove", target], "/");
+    expect(res.exitCode).toBe(0);
+    rmSync(target, { recursive: true, force: true });
+  });
+
+  test("`remove` refuses filesystem root", () => {
+    const res = run(["remove", "/"], "/");
+    expect(res.exitCode).toBe(1);
+    expect(res.stderr.toString()).toContain("refusing");
+  });
+
+  test("`remove` without target uses OPENCODE_CONFIG_DIR", () => {
+    const cwd = mkdtempSync(join(tmpdir(), "atx-cwd3-"));
+    const target = mkdtempSync(join(tmpdir(), "atx-target6-"));
+    expect(
+      run(["install"], cwd, { OPENCODE_CONFIG_DIR: target }).exitCode,
+    ).toBe(0);
+    const res = run(["remove"], cwd, { OPENCODE_CONFIG_DIR: target });
+    expect(res.exitCode).toBe(0);
+    expect(existsSync(join(target, "src"))).toBe(false);
+    expect(existsSync(join(cwd, "remove"))).toBe(false);
+    rmSync(cwd, { recursive: true, force: true });
+    rmSync(target, { recursive: true, force: true });
+  });
 });

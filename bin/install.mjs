@@ -1,24 +1,73 @@
 #!/usr/bin/env bun
-// anytxt-opencode install — copies the plugin source, OpenCode shim, skill
-// and command into the OpenCode config dir (~/.config/opencode by default;
-// override with OPENCODE_CONFIG_DIR or a positional path). Idempotent, safe
-// to re-run. Never touches an existing .env.
-import { cpSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+// anytxt-opencode install|remove — install copies the plugin source, OpenCode
+// shim, skill and command into the OpenCode config dir (~/.config/opencode by
+// default; override with OPENCODE_CONFIG_DIR or a positional path). Idempotent,
+// safe to re-run. Never touches an existing .env. remove deletes exactly what
+// install created — never the .env, never anything outside the known entries.
+import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, parse, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// `bunx anytxt-opencode install [target]` — the "install" subcommand is not
-// a path. Optional positional target, then OPENCODE_CONFIG_DIR, then default.
-const args = process.argv.slice(2).filter((a) => a !== "install");
+// `bunx anytxt-opencode install|remove [target]` — subcommands are not
+// paths. Optional positional target, then OPENCODE_CONFIG_DIR, then default.
+const argv = process.argv.slice(2);
+const mode = argv.includes("remove") ? "remove" : "install";
+const args = argv.filter((a) => a !== "install" && a !== "remove");
 const root = args[0] ?? process.env.OPENCODE_CONFIG_DIR ?? join(homedir(), ".config", "opencode");
 const src = fileURLToPath(new URL("../", import.meta.url)); // package root
 
-const jobs = [
+const entries = [
   ["src", "src"],
   ["skills/anytxt", "skills/anytxt"],
   ["command/anytxt-param.md", "command/anytxt-param.md"],
 ];
+
+if (mode === "remove") {
+  if (resolve(root) === parse(resolve(root)).root) {
+    console.error(`refusing to remove from filesystem root: ${root}`);
+    process.exit(1);
+  }
+  let removed = 0;
+  let ok = true;
+  for (const [, to] of entries) {
+    const p = join(root, to);
+    if (!existsSync(p)) {
+      console.log(`skip ${to} (not installed)`);
+      continue;
+    }
+    try {
+      rmSync(p, { recursive: true, force: true });
+      console.log(`removed ${to} -> ${p}`);
+      removed += 1;
+    } catch (err) {
+      ok = false;
+      console.error(`failed to remove ${to} (${p}): ${err.message}`);
+    }
+  }
+  const shim = join(root, "plugins", "anytxt.ts");
+  if (existsSync(shim)) {
+    try {
+      rmSync(shim, { force: true });
+      console.log(`removed plugins/anytxt.ts (shim) -> ${shim}`);
+      removed += 1;
+    } catch (err) {
+      ok = false;
+      console.error(`failed to remove plugins/anytxt.ts (${shim}): ${err.message}`);
+    }
+  } else {
+    console.log("skip plugins/anytxt.ts (not installed)");
+  }
+  if (existsSync(join(root, ".env"))) {
+    console.log(`kept .env (${join(root, ".env")}) — never removed`);
+  }
+  if (removed === 0) console.log(`nothing installed under ${root}`);
+  if (!ok) process.exit(1);
+  console.log("Done. Restart OpenCode.");
+  process.exit(0);
+}
+
+const jobs = entries;
 
 for (const [from, to] of jobs) {
   const dest = join(root, to);

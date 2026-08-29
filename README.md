@@ -1,7 +1,7 @@
 # AnyTXT for OpenCode
 
 
-![version](https://img.shields.io/badge/version-0.0.4-blue)
+![version](https://img.shields.io/badge/version-0.0.5-blue)
 ![npm](https://img.shields.io/npm/v/anytxt-opencode.svg?logo=nodedotjs)
 ![license](https://img.shields.io/badge/license-MIT-green)
 [![Ko-fi](https://img.shields.io/badge/support-Ko--fi-ff5e5b)](https://ko-fi.com/gianlucagernone)
@@ -49,6 +49,8 @@ bunx anytxt-opencode install .opencode
 Alternative: `"plugin": ["anytxt-opencode"]` in `opencode.json` (auto-install
 at startup). Full details, manual install and prerequisites:
 [docs/user.md](docs/user.md).
+
+Uninstall: `bunx anytxt-opencode remove` (project: `bunx anytxt-opencode remove .opencode`) — deletes what install created, keeps `.env`.
 
 ## Quick usage
 
