@@ -50,34 +50,85 @@ is strict (`noUncheckedIndexedAccess`, `verbatimModuleSyntax`, `noEmit`).
 - e2e asserts: sync feedback, `1.0.0` ≠ `1.0.1` exclusion, `st=1`
   punctuation, fragment lie warning, permission ask raised.
 
-## RPC reference (probed against live ATGUI, 2026-08-28)
+## AnyTXT API (official reference — non-commercial use only)
 
-Base: `POST http://127.0.0.1:9920` (fallback 9921), JSON-RPC 2.0,
-`params.input` object. Response: `result.data.output`.
+HTTP JSON-RPC 2.0 hosted inside the ATGUI process. Base:
+`POST http://127.0.0.1:9920` (plugin falls back to 9921). Envelope:
+
+```json
+{ "id": 123, "jsonrpc": "2.0", "method": "ATRpcServer.Searcher.V1.<Method>", "params": { "input": { } } }
+```
+
+Response: `result.data.output`. Non-commercial use only (AnyTXT license).
+
+### Methods
 
 | Method | Input | Output |
 | --- | --- | --- |
-| `Searcher.V1.Search` | pattern, filterDir, filterExt, lastModifyBegin/End | `{ count }` (total, no pagination) |
-| `Searcher.V1.GetResult` | + limit, offset, order, `st` | `{ count, field, files: [fid, lastModify, size, file][] }` |
-| `Searcher.V1.GetFragmentAll` | fid, pattern | `{ count, text[] }` (fragments with `*<<*…*>>*` highlights) |
-| `Searcher.V1.GetFragment` | fid, pattern | `{ text }` (single fragment) |
-| `Searcher.V1.GetRawTextByFID` | fid | `{ text }` (plain text — verification source of truth) |
-| `Searcher.V1.SyncIndex` | folder | `{}` (NO feedback) |
-| `Searcher.V1.OCR` | file | OCR text (OCR version only) |
+| `Search` | pattern, filterDir, filterExt, lastModifyBegin, lastModifyEnd | `{ count }` — matching file count (no pagination) |
+| `GetResult` | Search inputs + limit, offset, order | `{ count, field, files: [fid, lastModify, size, file][] }` |
+| `GetFragment` | fid, pattern | `{ text }` — one fragment, highlights `*<<*…*>>*` |
+| `GetFragmentAll` | fid, pattern | `{ count, text[] }` — all fragments, highlights `*<<*…*>>*` |
+| `SyncIndex` | folder | `{}` — no feedback |
+| `GetRawTextByFID` | fid | `{ text }` — raw text (verification source of truth) |
+| `OCR` | file | OCR text — OCR version only |
 
-### Quirks (why the plugin is built the way it is)
+### Input fields
+
+- `pattern`: advanced syntax (below); quoted phrases = exact, not tokenized.
+- `filterDir`: folder restriction; server defaults to `"C:"` when omitted.
+- `filterExt`: `"*"` or `"doc;pdf;ppt"` — multiple via `;`.
+- `lastModifyBegin` / `lastModifyEnd`: Unix timestamps, `0` .. `2147483647`.
+- `limit`: page size; `offset`: page start.
+- `order`: 0 default, 1 lastModify ASC, 2 lastModify DESC, 3 filterDir ASC,
+  4 filterDir DESC.
+
+### Advanced search syntax
+
+| Operator | Meaning |
+| --- | --- |
+| `&` | AND — terms on both sides included |
+| `\|` | OR — at least one side matches |
+| `!` | NOT — exclude results containing the term after |
+| `( )` | grouping — combinable with other operators |
+| `" "` | exact match — phrase not tokenized/split |
+
+```text
+test | hello
+test | "hello word"
+test | "hello word" !this
+test & (hello | "this is") !that
+```
+
+### curl example (GetResult)
+
+```sh
+curl --location '127.0.0.1:9920' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "id": 123, "jsonrpc": "2.0",
+    "method": "ATRpcServer.Searcher.V1.GetResult",
+    "params": { "input": {
+      "pattern": "Hello", "filterDir": "C:\\", "filterExt": "*",
+      "lastModifyBegin": 0, "lastModifyEnd": 2147483647,
+      "limit": "300", "offset": 0, "order": 0 } } }'
+```
+
+### Quirks (probed live, 2026-08-28/29 — why the plugin is built this way)
 
 - `filterDir` omitted → server defaults to `"C:"` (Windows heritage) → 0
   results on Linux. The plugin always sends it.
 - Version tokenization is broken: `1.0.0` ≡ `1.0.1` (search AND fragments).
   Raw-text verification is the only cure.
-- `st` param: `1` exact (unquoted phrase with punctuation works), `2`
-  advanced, `4` regexp → always 0 over RPC (unsupported).
+- `st` param (plugin extension): `1` exact (unquoted phrase with punctuation
+  works), `2` advanced, `4` regexp → always 0 over RPC (unsupported).
 - Orders: 0 default, 1 modtime ASC, 2 DESC, 3 filterDir ASC, 4 DESC.
 - No filename filter over RPC; `Search ""`/`"*"` → 0 (no "list all").
 - Indexing is async (~45 s); `/tmp` never indexed; folders outside indexed
   roots are silently ignored even after a successful `SyncIndex`.
 - False positives confirmed on disk: matched files with 0 real occurrences.
+- Official API lists `OCR` (input `file`); 
 
 ## Architecture notes
 

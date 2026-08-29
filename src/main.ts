@@ -292,7 +292,7 @@ const anytxt_sync = tool({
     const t0 = Date.now();
     await rpc<SyncOutput>("ATRpcServer.Searcher.V1.SyncIndex", { folder: a.folder }, dir);
     // SyncIndex returns {} and indexing is async: poll until a probe word
-    // from the folder becomes searchable, or time out honestly.
+    // from the folder becomes searchable, or time out.
     const timeout = Number(e.ANYTXT_SYNC_TIMEOUT ?? 120) * 1000;
     const probe = findProbe(a.folder);
     let found = false;

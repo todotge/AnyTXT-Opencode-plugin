@@ -22,7 +22,7 @@ Uses the local JSON-RPC 2.0 API inside the ATGUI process
 | --- | --- | --- |
 | `anytxt_search` | `Searcher.V1.GetResult` | Files matching a pattern, verified against raw text, with per-file occurrence counts |
 | `anytxt_fragment` | `Searcher.V1.GetFragmentAll` | Snippets around matches in one file, by FID |
-| `anytxt_sync` | `Searcher.V1.SyncIndex` | Add/refresh a folder in the index, with honest post-sync feedback |
+| `anytxt_sync` | `Searcher.V1.SyncIndex` | Add/refresh a folder in the index, with post-sync feedback |
 
 **Skill** (`skills/anytxt/SKILL.md`) — tells the agent when to prefer anytxt
 over ripgrep (binary documents), the query syntax, and the golden rule.

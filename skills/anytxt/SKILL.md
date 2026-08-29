@@ -16,7 +16,7 @@ Use ONLY when the target files are binary formats grep/ripgrep cannot read, or t
 ## Query syntax
 
 - `&` AND, `|` OR, `!` NOT, `( )` grouping, `"..."` exact phrase
-- Example: `patent & (canonical | basis) !draft`
+- Example: `signed & (agreement | contract) !draft`
 - `filterExt`: `"pdf;docx"` (default `*`). `directory`: restrict to a folder; omit to search all indexed folders.
 - `verify` (default on): matches are re-checked against raw text and false positives are excluded — output reports `N verified / M indexed`.
 - `st`: 1 exact, 2 advanced (default). Quoted patterns switch to exact automatically; exact matches punctuation (`"Version: 1.0.0"`). 4 (regexp) not supported over RPC.

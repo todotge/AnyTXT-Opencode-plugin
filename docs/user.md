@@ -120,7 +120,7 @@ Example: `signed & (agreement | contract) !draft`
   exact, punctuation included (`"Version: 1.0.0"` works). `4` (regexp) is
   not supported over RPC.
 - `anytxt_sync` reports files on disk and confirms indexing with a probe
-  word, or warns honestly when the folder never enters the index.
+  word, or warns when the folder never enters the index.
 
 ## Security
 
