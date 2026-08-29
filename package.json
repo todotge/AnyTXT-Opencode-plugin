@@ -1,22 +1,44 @@
 {
   "name": "anytxt-opencode",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OpenCode plugin + skill for AnyTXT Searcher full-text search",
   "type": "module",
   "license": "MIT",
-  "main": "plugins/anytxt.mjs",
-  "exports": "./plugins/anytxt.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/todotge/AnyTXT-Opencode-plugin.git"
+  },
+  "keywords": [
+    "opencode",
+    "anytxt",
+    "full-text-search",
+    "desktop-search",
+    "plugin",
+    "skill",
+    "bun"
+  ],
+  "main": "src/main.ts",
+  "exports": "./src/main.ts",
   "bin": {
     "anytxt-opencode": "bin/install.mjs"
   },
   "files": [
     "bin",
-    "plugins",
+    "src",
+    ".opencode",
     "skills",
     "command",
     ".env.example"
   ],
+  "scripts": {
+    "test": "bun test tests/ --timeout 300000",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@opencode-ai/plugin": "^1.14.18"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.0",
+    "typescript": "^7.0.2"
   }
 }

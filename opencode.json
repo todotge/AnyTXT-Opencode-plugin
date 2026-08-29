@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "anytxt_search": "ask",
+    "anytxt_fragment": "ask",
+    "anytxt_sync": "ask"
+  }
+}
