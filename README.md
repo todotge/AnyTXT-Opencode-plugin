@@ -39,6 +39,13 @@ One command: copies the sources, generates the shim, installs skill and
 command into `~/.config/opencode/`. Idempotent, never clobbers your `.env`.
 Then restart OpenCode.
 
+Project-local install (scoped to one project, global config untouched):
+
+```sh
+cd your-project
+bunx anytxt-opencode install .opencode
+```
+
 Alternative: `"plugin": ["anytxt-opencode"]` in `opencode.json` (auto-install
 at startup). Full details, manual install and prerequisites:
 [docs/user.md](docs/user.md).
