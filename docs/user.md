@@ -21,6 +21,17 @@ Copies `src/` → `~/.config/opencode/src/`, writes the one-line shim
 when no `.env` exists (never clobbers user config). Idempotent. Override the
 target with `OPENCODE_CONFIG_DIR` or a positional path.
 
+### Project-local install
+
+```sh
+cd your-project
+bunx anytxt-opencode install .opencode
+```
+
+Everything lands in the project's `.opencode/` (`.opencode/src/`,
+`.opencode/plugins/anytxt.ts`, skills, command) — scoped to this project
+only, nothing in the global config. Same shim path works for both targets.
+
 ### Alternative: npm plugin entry (no copies)
 
 ```json
