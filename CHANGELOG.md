@@ -145,6 +145,31 @@ ___
   installs: without the rules the agent's allow-all default wins silently.
   Global install → `~/.config/opencode/opencode.json`, project-local →
   `<project>/opencode.json`.
+- Honest verify degradation (feasibility probed 2026-08-29): `verifyRaw`
+  treats wildcards (`*`, `?`) as literal characters today — `version*`
+  matches nothing, silently reported `missing`. Fix: detect unsupported
+  tokens, add `⚠ verify degraded to literal` flag instead of silent lie.
+- Non-indexed extension hint (probed): index skips `.py` (measured),
+  `rg` is NOT installed on user machine — grep POSIX `-F` works
+  (`grep -cF`, `-ci`). `anytxt_search` will add hint when `filterExt` or
+  pattern hits text sources AnyTXT does not index (`.py`, `.js`, …).
+- Opt-in grep cross-check `ANYTXT_GREP=1` (probed): on text-extension
+  matches run POSIX `grep -oiF` per file (fixed strings — no escaping
+  bugs, case-insensitive, occurrence count), append `grep: N occ`. Off by
+  default — latency.
+- Input validation (probed: current `args as SearchArgs` casts are blind):
+  hand-rolled runtime guards for tool args → `AnyTxtError` instead of
+  silent cast. CI: GitHub Actions `bun test` + `tsc --noEmit` on push.
+
+### 0.0.7 — OCR
+
+- `anytxt_ocr` tool wrapping `Searcher.V1.OCR`. Probe 2026-08-29: current
+  ATGUI build returns `invalid method called` for all OCR method-name
+  variants (`Searcher.V1.OCR`, `.Ocr`, `OCR.V1.OCR`,
+  `Searcher.V1.GetOCRText`) — this build is the non-OCR edition
+  (dev.md: "OCR version only"). Implementation feasible as thin RPC
+  wrapper + honest `rpc_error` passthrough, but live verification blocked
+  until an OCR-edition ATGUI is available.
 
 ___
 
