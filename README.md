@@ -1,7 +1,10 @@
 # AnyTXT for OpenCode
 
-[![npm version](https://img.shields.io/npm/v/anytxt-opencode)](https://www.npmjs.com/package/anytxt-opencode)
-[![license](https://img.shields.io/npm/l/anytxt-opencode)](LICENSE.md)
+
+![version](https://img.shields.io/badge/version-0.0.2-blue)
+![npm](https://img.shields.io/npm/v/npm.svg?logo=nodedotjs)
+![license](https://img.shields.io/badge/license-MIT-green)
+[![Ko-fi](https://img.shields.io/badge/support-Ko--fi-ff5e5b)](https://ko-fi.com/gianlucagernone)
 
 Plugin + skill for OpenCode: full-text search over files indexed by
 [AnyTXT Searcher](https://anytxt.net/) — PDF, DOCX, PPTX, XLSX, EPUB, RTF and
