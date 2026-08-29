@@ -9,11 +9,13 @@ import { homedir } from "node:os";
 import { dirname, join, parse, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// `bunx anytxt-opencode install|remove [target]` — subcommands are not
-// paths. Optional positional target, then OPENCODE_CONFIG_DIR, then default.
+// `bunx anytxt-opencode install|remove|update [target]` — subcommands are
+// not paths. Optional positional target, then OPENCODE_CONFIG_DIR, then
+// default. update = install (re-copy, idempotent), only wording differs.
+const SUB = ["install", "remove", "update"];
 const argv = process.argv.slice(2);
-const mode = argv.includes("remove") ? "remove" : "install";
-const args = argv.filter((a) => a !== "install" && a !== "remove");
+const mode = argv.includes("remove") ? "remove" : argv.includes("update") ? "update" : "install";
+const args = argv.filter((a) => !SUB.includes(a));
 const root = args[0] ?? process.env.OPENCODE_CONFIG_DIR ?? join(homedir(), ".config", "opencode");
 const src = fileURLToPath(new URL("../", import.meta.url)); // package root
 
@@ -67,13 +69,14 @@ if (mode === "remove") {
   process.exit(0);
 }
 
+const verb = mode === "update" ? "updated" : "installed";
 const jobs = entries;
 
 for (const [from, to] of jobs) {
   const dest = join(root, to);
   mkdirSync(dirname(dest), { recursive: true });
   cpSync(join(src, from), dest, { recursive: true, force: true });
-  console.log(`installed ${to} -> ${dest}`);
+  console.log(`${verb} ${to} -> ${dest}`);
 }
 
 // Shim is generated, not copied: global plugins/ sits one level deep while
@@ -83,7 +86,7 @@ const shimDir = join(root, "plugins");
 mkdirSync(shimDir, { recursive: true });
 const shim = join(shimDir, "anytxt.ts");
 writeFileSync(shim, 'export { AnyTxtPlugin } from "../src/main.ts";\n');
-console.log(`installed plugins/anytxt.ts (shim) -> ${shim}`);
+console.log(`${verb} plugins/anytxt.ts (shim) -> ${shim}`);
 
 const env = join(root, ".env");
 if (!existsSync(env)) {

@@ -32,6 +32,16 @@ Everything lands in the project's `.opencode/` (`.opencode/src/`,
 `.opencode/plugins/anytxt.ts`, skills, command) — scoped to this project
 only, nothing in the global config. Same shim path works for both targets.
 
+### Update
+
+```sh
+bunx anytxt-opencode update            # global
+bunx anytxt-opencode update .opencode  # project-local
+```
+
+Same as install (idempotent re-copy), never clobbers `.env`. Use it after a
+new `anytxt-opencode` release.
+
 ### Uninstall
 
 ```sh

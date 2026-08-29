@@ -11,7 +11,7 @@ src/env.ts                     .env parsing + cache (mtime+size+TTL)
 src/errors.ts                  AnyTxtError codes
 src/types.ts                   RPC envelopes + tool args
 .opencode/plugins/anytxt.ts    OpenCode shim — one-line re-export (no logic)
-bin/install.mjs                installer (bunx anytxt-opencode install/remove)
+bin/install.mjs                installer (bunx anytxt-opencode install/remove/update)
 skills/anytxt/SKILL.md         agent skill
 command/anytxt-param.md        /anytxt-param command
 tests/verify.test.ts           unit: verify engine

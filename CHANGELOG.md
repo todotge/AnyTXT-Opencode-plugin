@@ -12,8 +12,10 @@ ____
   command from the target (positional path or `OPENCODE_CONFIG_DIR`,
   default `~/.config/opencode`). Deletes only what install created — never
   the `.env`. Skips entries not installed, refuses to run against a
-  filesystem root, exits 1 when a removal fails. Tests:
-  `tests/install.test.ts` (7 cases).
+  filesystem root, exits 1 when a removal fails.
+- `bunx anytxt-opencode update [target]`: re-runs install (idempotent
+  re-copy) — same target resolution as install/remove, keeps existing
+  `.env`. Tests: `tests/install.test.ts` (9 cases).
 
 ## [0.0.4] - 2026-08-29
 

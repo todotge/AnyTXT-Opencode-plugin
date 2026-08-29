@@ -51,6 +51,7 @@ at startup). Full details, manual install and prerequisites:
 [docs/user.md](docs/user.md).
 
 Uninstall: `bunx anytxt-opencode remove` (project: `bunx anytxt-opencode remove .opencode`) — deletes what install created, keeps `.env`.
+Update: `bunx anytxt-opencode update` — idempotent re-copy after a new release.
 
 ## Quick usage
 

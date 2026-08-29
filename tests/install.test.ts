@@ -86,4 +86,32 @@ describe("installer CLI", () => {
     rmSync(cwd, { recursive: true, force: true });
     rmSync(target, { recursive: true, force: true });
   });
+
+  test("`update` reinstalls over existing entries, keeps .env", () => {
+    const cwd = mkdtempSync(join(tmpdir(), "atx-cwd4-"));
+    const target = mkdtempSync(join(tmpdir(), "atx-target7-"));
+    expect(run(["install", target], "/").exitCode).toBe(0);
+    const res = run(["update", target], cwd);
+    expect(res.exitCode).toBe(0);
+    expect(existsSync(join(target, "src", "main.ts"))).toBe(true);
+    expect(existsSync(join(target, "plugins", "anytxt.ts"))).toBe(true);
+    expect(existsSync(join(target, ".env"))).toBe(true);
+    expect(existsSync(join(cwd, "update"))).toBe(false);
+    rmSync(cwd, { recursive: true, force: true });
+    rmSync(target, { recursive: true, force: true });
+  });
+
+  test("`update` without target uses OPENCODE_CONFIG_DIR", () => {
+    const cwd = mkdtempSync(join(tmpdir(), "atx-cwd5-"));
+    const target = mkdtempSync(join(tmpdir(), "atx-target8-"));
+    expect(
+      run(["install"], cwd, { OPENCODE_CONFIG_DIR: target }).exitCode,
+    ).toBe(0);
+    const res = run(["update"], cwd, { OPENCODE_CONFIG_DIR: target });
+    expect(res.exitCode).toBe(0);
+    expect(existsSync(join(target, "src", "main.ts"))).toBe(true);
+    expect(existsSync(join(cwd, "update"))).toBe(false);
+    rmSync(cwd, { recursive: true, force: true });
+    rmSync(target, { recursive: true, force: true });
+  });
 });
