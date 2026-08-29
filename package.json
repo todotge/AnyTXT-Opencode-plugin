@@ -1,6 +1,6 @@
 {
   "name": "anytxt-opencode",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "OpenCode plugin + skill for AnyTXT Searcher full-text search",
   "type": "module",
   "license": "MIT",

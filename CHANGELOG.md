@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 
 ____
 
+## [0.0.3] - 2026-08-29
+
+### Added
+
+- npm distribution: published as `anytxt-opencode` — `bin`
+  (`anytxt-opencode` → `bin/install.mjs`), `main`/`exports` → `src/main.ts`,
+  `files` (`bin`, `src`, `.opencode`, `skills`, `command`, `.env.example`),
+  `repository`, `keywords`. Tarball verified with `npm publish --dry-run`
+  (13 files, 33.9 kB unpacked).
+- One-command installer: `bunx anytxt-opencode install` copies `src/` to
+  `~/.config/opencode/src/`, generates the shim
+  `~/.config/opencode/plugins/anytxt.ts`, copies the skill to
+  `~/.config/opencode/skills/` and the command to
+  `~/.config/opencode/command/`; `.env.example` is copied to `.env` only
+  when no `.env` exists (never clobbers user config). Override the target
+  with `OPENCODE_CONFIG_DIR` or a positional path. Idempotent.
+- Alternative without copies: `"plugin": ["anytxt-opencode"]` in
+  `opencode.json` — opencode auto-installs npm plugins with Bun at startup.
+- Permission lockdown: each tool raises its own approval ask via
+  `ToolContext.ask` (`ANYTXT_ASK=1` default, `0` disables) AND
+  `opencode.json` ships explicit `"anytxt_*": "ask"` rules — both halves
+  required. Installer never touches the user's `opencode.json`.
+- Docs: `docs/user.md` (install, configuration, security, limitations,
+  troubleshooting), `docs/dev.md` (structure, testing, RPC reference,
+  architecture, release), `LICENSE.md` (MIT), README badges + Install
+  section.
+
+### Changed
+
+- README Install: `bunx anytxt-opencode install` primary path, manual copy
+  as fallback.
+
 ## [0.0.2] - 2026-08-28
 
 ### Added
@@ -71,50 +103,13 @@ ____
 
 [0.0.1]: https://github.com/todotge/AnyTXT-Opencode-plugin/releases/tag/v0.0.1
 [0.0.2]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.1...v0.0.2
-[Unreleased]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.2...HEAD
+[0.0.3]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.2...v0.0.3
+[Unreleased]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.3...HEAD
 
 
 ___
 
 ## [Unreleased]
-
-### 0.0.3 — Simple install (distribution)
-
-
-- Publish to npm as `anytxt-opencode`:
-  - `package.json`: `bin` (`anytxt-opencode` → `bin/install.mjs`),
-    `main`/`exports` → `src/main.ts`, `files`
-    (`bin`, `src`, `.opencode`, `skills`, `command`, `.env.example`),
-    `repository`, `keywords`, version 0.0.3.
-  - Verify the tarball with `npm publish --dry-run`.
-- Install with one command, no checkout needed:
-  `bunx anytxt-opencode install` copies `src/` to `~/.config/opencode/src/`,
-  generates the shim `~/.config/opencode/plugins/anytxt.ts`, copies the
-  skill to `~/.config/opencode/skills/` and the command to
-  `~/.config/opencode/command/`; `.env.example` is copied to `.env` only
-  when no `.env` exists (never clobbers user config). Override the target
-  with `OPENCODE_CONFIG_DIR` or a positional path. Idempotent.
-- Alternative without copies: `"plugin": ["anytxt-opencode"]` in
-  `opencode.json` — opencode auto-installs npm plugins with Bun at startup
-  (cache `~/.cache/opencode/node_modules/`). Source: opencode.ai/docs/plugins
-  (checked 2026-08-28).
-- Skill + command alternative: serve via `skills.urls` from a hosted
-  `.well-known/skills/` list (optional).
-- Permission lockdown (security): each tool raises its own approval ask via
-  the official `ToolContext.ask` API (`ANYTXT_ASK=1` default, `0` disables)
-  AND `opencode.json` ships explicit `"anytxt_*": "ask"` rules — both halves
-  required: without rules the agent's default allow-all wins silently, and
-  rules alone gate nothing when the plugin never asks. Verified working
-  live on opencode v1.17.18 (2026-08-28, prompt confirmed). Installer never
-  touches the user's `opencode.json`; docs/user.md documents both halves.
-- Docs for GitHub publish: `docs/user.md` (install, configuration, security,
-  limitations, troubleshooting), `docs/dev.md` (structure, testing, RPC
-  reference, architecture, release), README slimmed with badges (npm
-  version, license, stars) and `LICENSE.md` (MIT).
-- Update `README.md` Install section: `bunx anytxt-opencode install` as the
-  primary path; keep manual copy as fallback.
-- Tag `v0.0.3`, publish the release, bump 0.0.1 → 0.0.3.
-
 
 ___
 
