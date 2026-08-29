@@ -136,6 +136,16 @@ ___
 
 ## [Unreleased]
 
+### 0.0.6 — project `opencode.json` wiring
+
+- `install` and `update` also update the target's `opencode.json`: merge
+  the AnyTXT permission rules (`"permission": {"anytxt_search": "ask",
+  "anytxt_fragment": "ask", "anytxt_sync": "ask"}`) into it — preserve
+  existing content, never overwrite, idempotent. Needed for project-local
+  installs: without the rules the agent's allow-all default wins silently.
+  Global install → `~/.config/opencode/opencode.json`, project-local →
+  `<project>/opencode.json`.
+
 ___
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
