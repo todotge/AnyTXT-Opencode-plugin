@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-// anytxt-opencode install|remove — install copies the plugin source, OpenCode
+// anytxt-opencode install|remove|update — install copies the plugin source, OpenCode
 // shim, skill and command into the OpenCode config dir (~/.config/opencode by
 // default; override with OPENCODE_CONFIG_DIR or a positional path). Idempotent,
 // safe to re-run. Never touches an existing .env. remove deletes exactly what
@@ -9,7 +9,7 @@ import { homedir } from "node:os";
 import { dirname, join, parse, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// `bunx anytxt-opencode install|remove|update [target]` — subcommands are
+// `bunx anytxt-opencode@0.0.5 install|remove|update [target]` — subcommands are
 // not paths. Optional positional target, then OPENCODE_CONFIG_DIR, then
 // default. update = install (re-copy, idempotent), only wording differs.
 const SUB = ["install", "remove", "update"];

@@ -32,7 +32,7 @@ over ripgrep (binary documents), the query syntax, and the golden rule.
 ## Install
 
 ```sh
-bunx anytxt-opencode install
+bunx anytxt-opencode@0.0.5 install
 ```
 
 One command: copies the sources, generates the shim, installs skill and
@@ -43,15 +43,15 @@ Project-local install (scoped to one project, global config untouched):
 
 ```sh
 cd your-project
-bunx anytxt-opencode install .opencode
+bunx anytxt-opencode@0.0.5 install .opencode
 ```
 
 Alternative: `"plugin": ["anytxt-opencode"]` in `opencode.json` (auto-install
 at startup). Full details, manual install and prerequisites:
 [docs/user.md](docs/user.md).
 
-Uninstall: `bunx anytxt-opencode remove` (project: `bunx anytxt-opencode remove .opencode`) — deletes what install created, keeps `.env`.
-Update: `bunx anytxt-opencode update` — idempotent re-copy after a new release.
+Uninstall: `bunx anytxt-opencode@0.0.5 remove` (project: `bunx anytxt-opencode@0.0.5 remove .opencode`) — deletes what install created, keeps `.env`.
+Update: `bunx anytxt-opencode@0.0.5 update` — idempotent re-copy after a new release.
 
 ## Quick usage
 

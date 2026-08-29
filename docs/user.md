@@ -11,7 +11,7 @@ Prerequisites: OpenCode, [Bun](https://bun.sh) (for `bunx`), ATGUI running.
 ### One command (recommended, after npm publish)
 
 ```sh
-bunx anytxt-opencode install
+bunx anytxt-opencode@0.0.5 install
 ```
 
 Copies `src/` → `~/.config/opencode/src/`, writes the one-line shim
@@ -25,7 +25,7 @@ target with `OPENCODE_CONFIG_DIR` or a positional path.
 
 ```sh
 cd your-project
-bunx anytxt-opencode install .opencode
+bunx anytxt-opencode@0.0.5 install .opencode
 ```
 
 Everything lands in the project's `.opencode/` (`.opencode/src/`,
@@ -35,8 +35,8 @@ only, nothing in the global config. Same shim path works for both targets.
 ### Update
 
 ```sh
-bunx anytxt-opencode update            # global
-bunx anytxt-opencode update .opencode  # project-local
+bunx anytxt-opencode@0.0.5 update            # global
+bunx anytxt-opencode@0.0.5 update .opencode  # project-local
 ```
 
 Same as install (idempotent re-copy), never clobbers `.env`. Use it after a
@@ -45,8 +45,8 @@ new `anytxt-opencode` release.
 ### Uninstall
 
 ```sh
-bunx anytxt-opencode remove            # global
-bunx anytxt-opencode remove .opencode  # project-local
+bunx anytxt-opencode@0.0.5 remove            # global
+bunx anytxt-opencode@0.0.5 remove .opencode  # project-local
 ```
 
 Removes exactly what install created (`src/`, `plugins/anytxt.ts`,

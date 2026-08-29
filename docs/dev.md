@@ -11,7 +11,7 @@ src/env.ts                     .env parsing + cache (mtime+size+TTL)
 src/errors.ts                  AnyTxtError codes
 src/types.ts                   RPC envelopes + tool args
 .opencode/plugins/anytxt.ts    OpenCode shim — one-line re-export (no logic)
-bin/install.mjs                installer (bunx anytxt-opencode install/remove/update)
+bin/install.mjs                installer (bunx anytxt-opencode@0.0.5 install/remove/update)
 skills/anytxt/SKILL.md         agent skill
 command/anytxt-param.md        /anytxt-param command
 tests/verify.test.ts           unit: verify engine
@@ -110,3 +110,6 @@ Base: `POST http://127.0.0.1:9920` (fallback 9921), JSON-RPC 2.0,
 5. Test the installer end-to-end:
    `bun bin/install.mjs /tmp/anytxt-test` then import the generated shim.
 6. Post release: `[Unreleased]` diff link moves to the new tag.
+7. Bump the pinned bunx version (`@x.y.z`) in README, docs/user.md,
+   docs/dev.md, bin/install.mjs comment — never leave bare `bunx
+   anytxt-opencode` (stale cache).
