@@ -1,7 +1,7 @@
 # AnyTXT for OpenCode
 
 
-![version](https://img.shields.io/badge/version-0.0.3-blue)
+![version](https://img.shields.io/badge/version-0.0.4-blue)
 ![npm](https://img.shields.io/npm/v/anytxt-opencode.svg?logo=nodedotjs)
 ![license](https://img.shields.io/badge/license-MIT-green)
 [![Ko-fi](https://img.shields.io/badge/support-Ko--fi-ff5e5b)](https://ko-fi.com/gianlucagernone)

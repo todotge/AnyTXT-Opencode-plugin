@@ -8,7 +8,10 @@ import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = process.argv[2] ?? process.env.OPENCODE_CONFIG_DIR ?? join(homedir(), ".config", "opencode");
+// `bunx anytxt-opencode install [target]` — the "install" subcommand is not
+// a path. Optional positional target, then OPENCODE_CONFIG_DIR, then default.
+const args = process.argv.slice(2).filter((a) => a !== "install");
+const root = args[0] ?? process.env.OPENCODE_CONFIG_DIR ?? join(homedir(), ".config", "opencode");
 const src = fileURLToPath(new URL("../", import.meta.url)); // package root
 
 const jobs = [

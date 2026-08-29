@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ____
 
+## [0.0.4] - 2026-08-29
+
+### Fixed
+
+- `bunx anytxt-opencode install` installed into `./install/` in the cwd
+  instead of the config dir: the `install` subcommand was treated as a
+  positional target path. Subcommand now filtered before path resolution;
+  positional target and `OPENCODE_CONFIG_DIR` still work. Regression test:
+  `tests/install.test.ts`.
+
 ## [0.0.3] - 2026-08-29
 
 ### Added
@@ -104,7 +114,8 @@ ____
 [0.0.1]: https://github.com/todotge/AnyTXT-Opencode-plugin/releases/tag/v0.0.1
 [0.0.2]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.1...v0.0.2
 [0.0.3]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.2...v0.0.3
-[Unreleased]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.3...HEAD
+[0.0.4]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.3...v0.0.4
+[Unreleased]: https://github.com/todotge/AnyTXT-Opencode-plugin/compare/v0.0.4...HEAD
 
 
 ___
